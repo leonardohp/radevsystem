@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<f:view>
+        <h:form>
+            <p:dataTable id="lazyDataTable" value="#{usuarioDataGridView.allUsuarios}" var="usuario" paginator="true" rows="10"
+                selection="#{usuarioDataGridView.usuario}" selectionMode="single"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15" style="width: 80%;margin-left: 10%;margin-right: 10%;">
+ 
+                <p:ajax event="rowSelect" update=":usuarioDialogForm" oncomplete="usuarioDetails.show()" />
+ 
+                <p:column>
+                    <f:facet name="header">Login</f:facet>
+                    <h:outputText value="#{usuario.login}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Nome</f:facet>
+                    <h:outputText value="#{usuario.nome}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+ 
+        <p:dialog widgetVar="usuarioDetails" header="Usuario" modal="true">
+            <h:form id="usuarioDialogForm">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Login: " />
+                    <h:outputText value="#{usuarioDataGridView.usuario.login}" />
+                    <h:outputText value="Nome: " />
+                    <h:outputText value="#{usuarioDataGridView.usuario.nome}" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </f:view>
+
+</h:body>
+</html>

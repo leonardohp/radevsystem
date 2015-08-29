@@ -1,0 +1,756 @@
+// compress: true
+
+//-----------------------------------------------------------------------------
+// MENU HTML
+//-----------------------------------------------------------------------------
+.body {
+	padding-bottom: 0px;
+}
+
+@media (max-width: @screen-sm-max) {
+	.page-wrapper {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	.page-fixed {
+		left: 0 !important;
+		right: 0 !important;
+	}
+	.page-content {
+		overflow-x: hidden;
+	}
+}
+
+// Variáveis LESS
+//-----------------------------------------------------------------------------
+@screen-xs-max:  767px;
+@screen-sm-min:  768px;
+@screen-sm-max:  991px;
+@screen-md-min:  992px;
+@screen-md-max: 1199px;
+@screen-lg-min: 1200px;
+
+@fluig-color-1: #F15A22;
+@fluig-color-2: #FAA61A;
+@fluig-color-3: #FFCB05;
+@fluig-color-4: #6ACE39;
+@fluig-color-5: #D7DF23;
+@fluig-color-6: #58595B;
+
+// Classes auxiliares
+//-----------------------------------------------------------------------------
+.row.no-gutters {
+    margin-right: 0;
+    margin-left:  0;
+    
+    & > [class^="col-"], & > [class*=" col-"] {
+        padding-right: 0;
+        padding-left:  0;
+    }
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+a, a:focus, a:hover {
+	text-decoration: none;
+}	
+
+.legend {
+    &:before {
+        border-radius: 50%;
+        height: 15px;
+        width: 15px;
+        font-size: 10px;
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+        color: #FFFFFF;
+        margin-right: 10px;
+    }
+}
+
+.tag-1() {
+    &:before {
+        background-color: @fluig-color-1;
+		content: "1";
+    }
+}
+
+.tag-2() {
+    &:before {
+        background-color: @fluig-color-2;
+		content: "2";
+    }
+}
+
+.tag-3() {
+    &:before {
+        background-color: @fluig-color-3;
+		content: "3";
+    }
+}
+
+.tag-4() {
+    &:before {
+        background-color: @fluig-color-4;
+		content: "4";
+    }
+}
+
+.tag-5() {
+    &:before {
+        background-color: @fluig-color-5;
+		content: "5";
+    }
+}
+
+.tag-6() {
+    &:before {
+        background-color: @fluig-color-6;
+		content: "6";
+    }
+}
+
+.noselect {
+    user-select: none;
+    cursor: default;
+}
+
+
+// Componente visuais
+//-----------------------------------------------------------------------------
+// Alterado o z-index para evitar a incompatibilidade do datepicker com a modal no Chrome...
+.datepicker {
+	&.dropdown-menu {
+    	z-index: 1051 !important;
+	}
+}
+
+.bootstrap-timepicker-widget {	
+	z-index: 1099 !important;
+	
+	input {
+		&.bootstrap-timepicker-hour,
+		&.bootstrap-timepicker-minute {
+			border: 1px solid #ccc;
+			margin-left: 1px;
+			border-radius: 0px;
+		}
+	}
+}
+
+field {
+	// Corrigido o display do textarea com col-xs-12 quando apresentado dentro de um modal no Firefox.
+	&[type="textarea"] .field-input .input-group {
+		display: flex;
+	}
+
+	&[type="checkbox"] .input-group .form-control {
+		width: auto !important;
+	}
+
+	&[type="radio"] .input-group .radio {
+		float: left;
+		width: auto !important;
+		margin-right: 10px;
+	}
+	
+	.field-container {
+		margin-right: 0px !important;
+		padding-right: 0px !important;
+		margin-top: 5px;
+	}
+	
+	.field-label {
+		margin-bottom: 5px;
+		font-weight: 200;
+		font-size: 12px;
+		color: gray;
+	}
+	
+	.field-input {
+		
+		.input-group {
+			
+			right: 0px;
+			display: block;
+			
+			&.no-block {
+				display: table;
+			}
+		}
+		
+		.tooltip {
+		
+			top: 0px;
+			width: 100%;
+			
+			.tooltip-inner {
+				margin-left: auto;
+				margin-right: auto;
+				color: #fff;
+				background-color: #d9534f;
+				border-color: #d43f3a;
+			}
+			
+			.tooltip-arrow {
+				color: #fff;
+				border-top-color: #d43f3a !important; 
+			}
+		}
+	}
+}
+
+// Estilos das páginas das aplicações HTML
+//-----------------------------------------------------------------------------
+@page-border:           15px;
+@page-navbar-height:    35px;
+
+// Estilo do container da página.
+.page-wrapper {
+    height:  100%;
+    padding: 15px;
+    position: relative;
+    
+    & a:focus, & a:hover {
+        outline: none !important;
+        text-decoration: none !important;
+    }
+}
+
+.page-fixed {
+    background-color: #e0e5ea;
+    position: fixed;
+    
+    left:  @page-border;
+    right: @page-border;
+    
+    z-index: 3;
+    
+    margin-top: -@page-border;
+    padding-top: @page-border;
+}
+
+// Estilo da barra de navegação da página, onde se encontra o botão de menu
+// lateral, a breadcrumb e o favoritar da página.
+.page-navbar {
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    color: #A0A0A0;
+    padding: 3px 8px;
+    background-color: white;
+    height: @page-navbar-height;
+    margin-bottom: 5px;
+    
+    .breadcrumb {
+        background-color: #FFFFFF;
+        margin: 0;
+        padding: 0;
+        
+        & > li + li:before {
+            background-image: url(../img/breadcrumb-separator.png);
+            background-repeat: no-repeat;
+            content: "";
+            display: inline-block;
+            margin: 0 3px;
+            height: 29px;
+            width: 6px;
+            vertical-align: middle;
+        }
+    }
+    
+    .btn-favorite {
+        border: none;
+        border-radius: 0;
+        color: #A0A0A0;
+        margin: 0;
+        padding: 0;
+        padding-top: 3px;
+        
+        &:hover {
+            background: none;
+        }
+        
+        &:active {
+            box-shadow: none;
+        }
+    }
+}
+
+// Estilo do cabeçalho da página, onde se encontra o título, as operações,
+// o campo de busca, as legendas do conteúdo e os filtros informados.
+.page-head {
+    padding: 15px;
+    background-color: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-top-left-radius:  4px;
+    border-top-right-radius: 4px;
+    border-bottom: none;
+    
+    &:after {
+        content: "";
+        box-shadow: 0 0 6px rgba(0, 0, 0, .75);
+        display: block;
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        z-index: -1;
+        margin-left: -15px;
+        margin-top:   14px;
+    }
+
+    // Estilo do título da página.
+    .title {
+        margin:  0;
+        padding: 0;
+    }
+
+	.settings {
+		h3 {
+			float: right;
+			margin: 0;
+		}
+	}
+	
+    // Estilo das operações da página.
+    .operations {
+        
+		padding-top: 10px;
+		
+		a, button {
+			margin-right: 5px;		
+		}
+    }
+
+    // Estilo do campo de pesquisa e botão de busca avançada.
+    .filters {
+        display: table;
+        padding-top: 10px;
+        width: 100%;
+
+        .search {
+            display: table-cell;
+            width: 100%;
+        }
+
+        .advanced-search {
+            display: table-cell;
+            font-size: 11px;
+            padding-left: 5px;
+            vertical-align: middle;
+			width: 0;
+        }
+    }
+    
+    // Estilo das legendas dos dados da página.
+    .page-tags {
+        border-top: 1px dotted #CECECE;
+        border-bottom: 1px dotted #CECECE;
+        display: flex;
+        margin-top: 10px;
+        padding: 10px 0;
+        width: 100%;
+
+        .tag {
+            display: table-cell;
+            vertical-align: middle;
+            padding-right: 10px;		
+        }
+
+        .tag-1 {
+            .tag-1();
+        }
+
+        .tag-2 {
+            .tag-2();
+        }
+
+        .tag-3 {
+            .tag-3();
+        }
+
+        .tag-4 {
+            .tag-4();
+        }
+
+        .tag-5 {
+            .tag-5();
+        }
+
+        .tag-6 {
+            .tag-6();
+        }
+    }
+
+    // Estilo dos avisos da página que engloba os filtros aplicados e possíveis
+    // mensagens que a página possa exibir.
+    .page-disclaimers {
+        color: #888888;
+        padding: 8px 0;
+        margin-top: 10px;
+
+        h1, h2, h3, h4, h5, h6 {
+            margin:  0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .label {
+            padding: 4px;
+            margin-right: 5px;
+        }
+
+        .glyphicon {
+            color: #FFFFFF;
+            margin-left: 5px;
+        }
+    }
+}
+
+// Estilo do conteúdo da página que engloba o cabeçalho, a lista ou a tabela, o
+// botão de visualizar mais registros e as legendas dos dados.
+.page-content {
+    background-color: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    border-bottom-left-radius:  4px;
+    border-bottom-right-radius: 4px;
+    border-top: none;
+    min-height: 100%;
+    
+    // ***** O cálculo abaixo provavelmente terá que ser feito via JS. *****
+    // margin-top: 0px;
+    
+    .list-item, .table-content tbody tr {
+		&:nth-child(odd) {
+            background-color: #F1F1F1;
+        }
+        
+        &:nth-child(odd) {
+            background-color: #F9F9F9;
+        }
+	}
+	
+    .list-item {
+        &.tag-1 {
+            border-left: 5px solid @fluig-color-1;
+        }
+        
+        &.tag-2 {
+            border-left: 5px solid @fluig-color-2;
+        }
+        
+        &.tag-3 {
+            border-left: 5px solid @fluig-color-3;
+        }
+        
+        &.tag-4 {
+            border-left: 5px solid @fluig-color-4;
+        }
+        
+        &.tag-5 {
+            border-left: 5px solid @fluig-color-5;
+        }
+        
+        &.tag-6 {
+            border-left: 5px solid @fluig-color-6;
+        }
+    }
+    
+	.table-content {
+        .table-responsive {
+            margin-bottom: 0px;
+            overflow: auto;
+            width: 100%;
+		}
+		
+        table {
+			font-size: 13px;
+            border-collapse: separate;
+		}
+        
+        thead tr {
+            background-color: #6E7D82;
+            color: #fff;
+            
+            &>th {                
+                border: none;
+                border-top: 1px solid #424C4E !important;
+                border-right: 1px dotted #4C5053;
+                border-bottom: 1px solid #424C4E;
+                border-left: 1px dotted #A3ABAE;
+                font-weight: normal;
+                
+                &:first-child {
+                    border-left: none;
+                }
+                
+                &:last-child {
+                    border-right: none;
+                }
+            }
+		}
+		
+		tbody tr {
+			border-bottom: 1px solid #ddd;
+            
+            &.selected {
+                background-color: #0C9ABE;
+                color: #FFFFFF;
+            }
+			
+            td {
+				cursor: pointer;
+				padding: 9px 8px 5px;
+                white-space: nowrap;
+                border-top: 1px solid #E4E4E4 !important;
+                
+                &.tag-1 {
+                     .tag-1;
+                    .legend;
+                    
+                    text-align: center;
+                }
+                
+                &.tag-2 {
+                     .tag-2;
+                    .legend;
+                    
+                    text-align: center;
+                }
+        
+                &.tag-3 {
+                     .tag-3;
+                    .legend;
+                    
+                    text-align: center;
+                }
+        
+                &.tag-4 {
+                     .tag-4;
+                    .legend;
+                    
+                    text-align: center;
+                }
+        
+                &.tag-5 {
+                     .tag-5;
+                    .legend;
+                    
+                    text-align: center;
+                }
+        
+                &.tag-6 {
+                     .tag-6;
+                    .legend;
+                    
+                    text-align: center;
+                }
+                
+                .noselect;
+			}
+		
+            & > th[scope="row"].select {
+                width: 20px;
+                padding-right: 2px;
+            }
+		}
+	}
+	
+    .item-content {
+        border-bottom: 1px solid #e4e4e4;
+        padding: 10px 20px 0px 20px;
+        padding-bottom: 0;
+        
+        //A primeira linha são o título e as ações do item.
+        .item-actions {
+            margin-bottom: 5px;
+        }
+        
+        .title {
+            font-size: 18px;
+            
+            &.tag-1 {
+                .tag-1();
+            }
+            
+            &.tag-2 {
+                .tag-2();
+            }
+            
+            &.tag-3 {
+                .tag-3();
+            }
+            
+            &.tag-4 {
+                .tag-4();
+            }
+            
+            &.tag-5 {
+                .tag-5();
+            }
+            
+            &.tag-6 {
+                .tag-6();
+            }
+        }
+        
+		.info-more {
+			border-top: 1px dotted #CECECE;
+			margin-top: 5px;
+			padding-top: 2px;
+		}
+		
+        .link {
+            color: #0E9ABD;
+            text-decoration: none;
+        }
+    }
+}
+
+.page-wrapper-child {
+	
+	.page-head {
+		border: none;
+	}
+	
+	.page-content {
+		
+		border: none;
+		
+		.item-content {
+			padding: 6px 10px 0;
+			
+			.title {
+				font-size: 14px;
+				font-weight: bold;
+			}
+		}
+		
+		.info-more {
+			margin-left: -10px;
+			margin-right: -10px;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Estilos das páginas de criação, edição e detalhes
+//-----------------------------------------------------------------------------
+.page-detail-actions {
+	margin-top: -40px;
+}
+
+.page-edit-actions, .page-detail-actions {
+	a,
+	button,
+	div.btn-group {		
+		margin-left: 5px;
+		
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+	
+    @media (min-width: @screen-sm-min) {
+        float: right;
+    }
+    
+    @media (max-width: @screen-xs-max) {
+        margin-top: 5px;
+    }
+}
+
+.page-form {
+    
+	padding: 5px 20px 20px 20px;
+
+    field[required] label {
+        font-weight: bold;
+    
+        &:after {
+            content: "   *";
+            color: red;
+        }
+    }
+    
+    legend {
+        padding-top: 15px;
+		padding-left: 15px;
+    }
+}
+
+.page-details {
+    
+	padding: 15px 20px;
+	
+	@media (max-width: @screen-xs-max) {
+		padding-top: 5px;
+	}
+    
+	> div > div + div {
+		margin-bottom: 5px;
+	}
+	
+    .field-label {
+        color: #999999;
+    }
+    
+    .field-value {
+        color: #333333;
+    }
+	
+	.tabset {
+		
+		@media (max-width: @screen-xs-max) {
+			margin-top: 10px;
+		}
+		
+		margin-top: 15px;
+		
+		ul.nav-tabs > li {
+			.clickable;
+		}
+	}
+}
+
+.item-field {
+	label {
+		margin-bottom: 0px;
+		padding-right: 5px;
+	}
+}
+
+.more-results {
+	margin-top: 10px;
+    
+    & > .btn {
+        border-radius: 0;
+    }
+}
+
+.description-format {
+	display: block;	
+	white-space: pre-line;
+	text-align: justify;	
+	word-break: keep-all;
+	word-wrap: break-word;
+}
+
+pre.description {
+	background: none;
+	border: none !important;
+	border-radius: 0 !important;
+	margin: auto !important;
+	padding: auto !important;
+	font-family: "Arial";
+	padding: 10px 0;
+	.description-format();
+}
+
+.description {
+	> .item-field > span {
+		.description-format();
+	}
+}

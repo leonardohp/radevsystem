@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"    
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bem Vindo a Radev Systems</title>
+    
+    <style>
+		body {
+	        font-family: 'Arial Regular', 'Arial';
+	        font-size: 13px;
+	        font-style: normal;
+	        font-weight: 400;
+	        margin: 0px;
+	    }
+	    label {
+	        color: #646D73;
+	    }
+	    #loginDiv {
+	        width: 1000px;
+	        height: 84px;
+	        margin-top: 14px;
+	        margin-left: auto;
+	        margin-right: auto;
+	    }
+	    #loginDiv a {
+	        padding-left:75px;
+	        text-decoration: none;
+	        color: #5B9EBF;
+	        font-family: "Arial Narrow";
+	    }
+	    #loginDiv form {
+	        margin-top: 0px;
+	    } 
+	    #loginDiv input {
+	        margin-top: 4px;
+	        margin-bottom: 4px;
+	    }
+	    label {
+	        display: inline-block;
+	        margin-top: 4px;
+	        width: 70px;
+	        color: #CBCBCB;
+	        text-align: right;
+	        font-family: 'Arial Narrow', 'Arial';
+	        font-size: 18px;
+	        font-style: normal;
+	        font-weight: 400;
+	    }
+	    #loginDiv input  {
+	        height: 30px;
+	        width: 200px;
+	    }
+	    hr {
+	        border: none;
+	        color: #a8a8a8;
+	        background-color: #4F94CD;
+	        height: 4px;
+	    }
+	    #errorDiv {
+	        color: #f7931e;
+	        display: block;
+	        width: 100%;
+	        float: left;
+	        margin-left: 18px;
+	    }
+	    .input-group .input-label {
+	        float: left;
+	        margin-top: 15px;
+	        margin-right: 5px;
+	    }
+	    .input-group .input-controls {
+	        display: inline-block;
+	    }
+	    .pull-left {
+	        float: left;
+	    }
+	    .pull-right {
+	        float: right;
+	        margin-right: 10px;
+	    }
+	    .input-groups-wrapper {
+	        float: left;
+    	}
+	</style>    
+</h:head>
+
+<h:body>
+
+    <div id="loginDiv">
+        <h:form name="login_form" id="login_form" >
+            <div class="input-groups-wrapper">
+                <div>
+                    <div class="input-group pull-left">
+                        <label for="user">Usuário:</label>
+                        <div class="input-controls">
+                            <h:inputText name="login" value="#{sessionBean.user}"/>
+                        </div>
+                    </div>
+                    <div class="input-group pull-right">
+                        <label for="password">Senha:</label>
+                        <div class="input-controls">
+                            <h:inputSecret name="password" value="#{sessionBean.password}"/>                     		
+                        </div>
+                        <h:commandButton id="btn-login" style="background-color:#D2691E; color:#FFFFFF; width:100px; border: none; height: 37px; margin-left: 40px;" value="Entrar" action="#{sessionBean.login}"/>
+                        <div>
+                            <a id="forgot-pwd-link" href="">Esqueceu sua senha?</a>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </h:form>
+    </div>
+    <hr></hr>    
+    <div id="loginDiv">    
+    	<p:messages id="messages" showDetail="false" autoUpdate="false" closable="true"/>    
+    </div>
+    <div id="loginDiv">
+		<img style="margin-left: 150px" src="../img/logo.jpg" />
+    </div>      
+</h:body>
+</html>        
