@@ -1,0 +1,167 @@
+<div class="page-content">                                      
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN VALIDATION STATES-->
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa icon-user"> </i> Cadastro de Cliente
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form id="form_sample_2" class="form-horizontal">
+                        <div class="form-body">
+                            <div id ="alert" class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                Falha no cadastro. Preencha todos os campos abaixo.
+                            </div>
+                            <div id ="alertServidor" class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                Falha no cadastro. Erro no servodor.
+                            </div>
+                            <div id ="alert2" class="alert alert-success display-hide">
+                                <button class="close" data-close="alert"></button>
+                                Cadastro realizado com sucesso!
+                            </div>
+                            <div id ="alertEmail" class="alert alert-success display-hide">
+                                <button class="close" data-close="alert"></button>
+                                Email incorreto.
+                            </div>
+                            <div id ="alertCPF" class="alert alert-success display-hide">
+                                <button class="close" data-close="alert"></button>
+                                CPF/CNPJ incorreto.
+                            </div>
+                            <div id ="alertRG" class="alert alert-success display-hide">
+                                <button class="close" data-close="alert"></button>
+                                RG incorreto.
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Nome <span class="required">
+                                        * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" class="form-control" id="nome"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Email <span class="required">
+                                        * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" class="form-control" id="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">CPF/CNPJ <span class="required">
+                                        * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" class="form-control" id="cpf"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">RG/Inscr. Estadual<span class="required">
+                                        * </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="text" class="form-control" id="rg"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" id="salvar" class="btn green">Salvar</button>
+                                    <button type="button" id="cancelar" class="btn default">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+            <!-- END VALIDATION STATES-->
+        </div>
+    </div>
+</div>
+<script src="assets/admin/pages/scripts/form-validation.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        FormValidation.init();
+        $("#cpf").mask("999.999.999-99");
+        $("#rg").mask("99.999.999-9");
+    });
+
+    $("#salvar").click(function () {
+        if(validation()){
+            send();
+        }
+        return false;
+    });
+    
+     $("#cancelar").click(function () {
+        $("#painel-ajax").load("manterClientes.html");
+     });
+        
+    function validation(){
+        var nome = $('#nome').val();
+        var email = $('#email').val();
+        var cpf = $('#cpf').val();
+        var rg = $('#rg').val();
+        
+        if( nome.length == 0 ||
+            email.length == 0||
+            cpf.length == 0||
+            rg.length == 0){
+                $('#alert').fadeIn(500);
+                setTimeout( "$('#alert').fadeOut(1500);",3000);
+                return false;
+        }
+        return true;
+    }
+    
+    function send() {
+        var res = {
+            nome : $('#nome').val(),
+            email : $('#email').val(),
+            cpf : $('#cpf').val(),
+            rg : $('#rg').val()
+        }
+        $.ajax({
+            url: 'cadastroCliente.php',
+            type: 'post',
+            dataType: 'json',
+            data: res,
+            success: function (data) {
+                if(data == true){
+                    $('#alert2').fadeIn(500);
+                    setTimeout( "$('#alert2').fadeOut(1500);",2500);  
+                    setTimeout("$('#painel-ajax').load('manterClientes.html');", 2500);
+                }
+                else{
+                    $('#alertServidor').fadeIn(500);
+                    setTimeout( "$('#alertServidor').fadeOut(1500);",2500);  
+                }
+            },
+            error: function(e) { 
+                $('#alertServidor').fadeIn(500);
+                setTimeout( "$('#alertServidor').fadeOut(1500);",2500);
+                console.log(e.responseText);
+            }
+        });
+    }
+
+</script>

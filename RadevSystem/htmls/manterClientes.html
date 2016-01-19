@@ -1,0 +1,142 @@
+<div class="page-content">                                      
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa icon-basket"> </i> Pesquisar Clientes
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <button style="width:100px;" id="selecionar" class="btn grey-cascade">
+                                    Selecionar 
+                                </button>
+                                <button style="width:100px;" id="novoCliente" name="novoCliente" class="btn grey-cascade">
+                                    Novo 
+                                </button>
+                                <button style="width:100px;" id="fechar" class="btn grey-cascade">
+                                    Fechar 
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon input-circle-left bold">
+                                    Tipo
+                                </span>
+                                <select class="form-control">
+                                    <option>Nome</option>
+                                    <option>Código</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon input-circle-left bold">
+                                    Busca
+                                </span>
+
+                                <div class="input-icon">
+                                    <input id="busca" class="form-control" type="text" >
+                                </div>
+                                <span class="input-group-btn">
+                                    <button id="genpassword" class="btn btn-success" type="button"><i class="fa fa-search fa-fw"></i> Pesquisar</button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                        <thead>
+                            <tr>
+                                <th>
+
+                                </th>
+                                <th>
+                                    Código
+                                </th>
+                                <th>
+                                    Nome
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    CPF/CNPJ
+                                </th>
+                                <th>
+                                    RG/Inscr. Estadual
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+</div>
+
+
+<script src="assets/admin/pages/scripts/table-managed.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        TableManaged.init();
+
+        $("#novoCliente").click(function () {
+            $("#painel-ajax").load("cadastroClientes.html");
+        });
+        
+        $.ajax({
+            url: 'listarCliente.php',
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    addRow(data[i]);
+                }
+            },
+            error: function(e) { 
+                console.log(e.responseText);
+            }
+        });
+    });
+    
+    
+    
+    function addRow(data){
+        var newRow = $("<tr>");
+        var cols = "";
+
+        cols += '<td><input type="checkbox" class="checkboxes" value="1"/></td>';
+        cols += '<td>'+data[0]+'</td>';
+        cols += '<td>'+data[1]+'</td>';
+        cols += '<td>'+data[2]+'</td>';
+        cols += '<td>'+data[3]+'</td>';
+        cols += '<td>'+data[4]+'</td></tr>';
+
+        newRow.append(cols);
+        $("#sample_1").append(newRow);
+
+        return false;
+    }
+
+
+</script>
