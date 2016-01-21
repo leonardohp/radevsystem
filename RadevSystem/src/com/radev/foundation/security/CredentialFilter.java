@@ -22,13 +22,15 @@ public class CredentialFilter implements Filter {
                             FilterChain chain) throws IOException, ServletException {
 		Usuario usuario = null;
 	    HttpSession sess = ((HttpServletRequest) request).getSession(false);
-	     
+	    /*usuario = (Usuario) sess.getAttribute("usuarioLogado");
+	    chain.doFilter(request, response);*/
+	    
 	    if (sess != null) {
 	    	usuario = (Usuario) sess.getAttribute("usuarioLogado");
 	    }      
 	 	    
 	    if (usuario == null) {
-	    	request.getRequestDispatcher("../pages/index.xhtml").forward( request, response );  
+	    	request.getRequestDispatcher("../pages/menu.xhtml").forward( request, response );  
 	    } else {
 	    	chain.doFilter(request, response);
 	    }

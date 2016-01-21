@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
     version="2.0">
   <navigation-rule>
-  	<from-view-id>../pages/index.xhtml</from-view-id>
+  	<from-view-id>../pages/menu.xhtml</from-view-id>
     <navigation-case>
 		<from-outcome>menu</from-outcome>
 		<to-view-id>../pages/menu.xhtml</to-view-id>
