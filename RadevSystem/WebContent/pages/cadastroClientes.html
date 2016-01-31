@@ -99,7 +99,8 @@
 </div>
 <script src="assets/admin/pages/scripts/form-validation.js"></script>
 <script>
-    jQuery(document).ready(function () {
+
+    jQuery(document).ready(function () {        
         FormValidation.init();
         $("#cpf").mask("999.999.999-99");
         $("#rg").mask("99.999.999-9");
@@ -141,7 +142,7 @@
             rg : $('#rg').val()
         }
         $.ajax({
-            url: 'cadastroCliente.php',
+            url: '/RadevSystem/ClienteServiceRegister',
             type: 'post',
             dataType: 'json',
             data: res,

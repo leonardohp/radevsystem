@@ -1,0 +1,556 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="page-content">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN EXAMPLE TABLE PORTLET-->
+			<div class="portlet box grey-cascade">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa icon-basket"> </i> Edição de Pedido
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="table-toolbar">
+						<div class="row">
+							<div class="col-md-6">
+
+								<button style="width: 100px;" id="gravar"
+									class="btn grey-cascade">Gravar</button>
+								<button style="width: 100px;" id="fechar"
+									class="btn grey-cascade">Fechar</button>
+
+							</div>
+
+						</div>
+						<div id="alert" class="alert alert-danger display-hide">
+							<button class="close" data-close="alert"></button>
+							<div id="textError">Falha no cadastro. Preencha todos os
+								campos abaixo.</div>
+						</div>
+						<div id="alert2" class="alert alert-success display-hide">
+							<button class="close" data-close="alert"></button>
+							Cadastro realizado com sucesso!
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Número do Pedido </span> <input id="numerodopedido" disabled
+									class="form-control" type="text">
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Cliente </span> <input id="clienteoption" disabled
+									class="form-control" type="text">
+							</div>
+
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Data do Pedido </span> <input id="datadopedido" class="form-control"
+									disabled type="text">
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									End. Cobrança </span> <input id="endcobranca" class="form-control"
+									disabled type="text">
+							</div>
+
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Valor do Pedido </span> <input id="valorpedido" disabled
+									class="form-control" type="text">
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									End. Entrega </span> <input id="endentrega" class="form-control"
+									disabled type="text">
+							</div>
+
+						</div>
+					</div>
+					<div class="row">
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Vendedor </span> <input id="vendedoroption" class="form-control"
+									disabled type="text">
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon plus-size input-circle-left bold">
+									Condição Pgto. </span> <input id="condicaopgto" class="form-control"
+									disabled type="text">
+							</div>
+
+						</div>
+					</div>
+
+					<table class="table table-striped table-bordered table-hover"
+						id="sample_1">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Código</th>
+								<th>Descrição</th>
+								<th>Quantidade</th>
+								<th>Valor</th>
+								<th>Ações</th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+
+					<a href="#janela1" rel="modal">
+						<div id="novoItem" class="plus-ico bold">
+							<i class="fa fa-plus"> </i> Adicionar item
+						</div>
+					</a>
+
+					<div class="window" id="janela1">
+						<a href="#" class="fechar">X Fechar</a>
+						<h4>Produtos</h4>
+						<table class="table table-striped table-bordered table-hover"
+							id="sample_2">
+							<thead>
+
+								<th>Código</th>
+								<th>Descrição</th>
+								<th>Valor</th>
+
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+
+
+					<!-- mascara para cobrir o site -->
+					<div id="mascara"></div>
+
+
+				</div>
+			</div>
+			<!-- END EXAMPLE TABLE PORTLET-->
+		</div>
+	</div>
+	<div class="row"></div>
+
+	<script src="assets/admin/pages/scripts/table-managed.js"></script>
+	<script src="js/mask.js" type="text/javascript"></script>
+	<script>
+        jQuery(document).ready(function () {
+            TableManaged.init();
+
+            $("#fechar").click(function () {
+                $("#painel-ajax").load("pedidoVenda.html");
+            });
+
+            $("#gravar").click(function () {
+
+                if(verificaCampos()){
+                	var cabecalhoArray = [
+							$("#numerodopedido").val()
+                    ];              
+                    var itensArray = tableToarray();
+
+                    var arrayItem=[];
+					var arrayCodigo=[];
+					var arrayQtd=[];
+                                        
+                	$.each(itensArray, function(i, object) {
+                    	if(object.quantidade != "" || object.quantidade != 0){
+							arrayItem.push(object.item);
+							arrayCodigo.push(object.codigo);
+							arrayQtd.push(object.quantidade);
+                    	}});    
+
+                	var formData = $(this).serializeArray();
+
+                	var cabecalho_string = JSON.stringify(cabecalhoArray);
+                	formData.push({name: 'cabecalho', value: cabecalho_string});
+
+                	var item_string = JSON.stringify(arrayItem);
+                	formData.push({name: 'item', value: item_string});
+
+                	var codigo_string = JSON.stringify(arrayCodigo);
+                	formData.push({name: 'codigo', value: codigo_string});
+
+                	var qtd_string = JSON.stringify(arrayQtd);
+                	formData.push({name: 'qtd', value: qtd_string});
+                	
+                	$.ajax({
+                        url: '/RadevSystem/PedidoServiceEditItens',
+                        type: 'post',
+                        dataType: 'json',
+                        data: formData,
+                        success: function (data) {
+                            if(data == true){
+                            	$('#alert2').fadeIn(500);
+                                setTimeout( "$('#alert2').fadeOut(1500);",2500);  
+                                setTimeout("$('#painel-ajax').load('pedidoVenda.html');", 2500);
+                            }
+                            else{
+                            	errorMsg("Falha no servidor.");
+                            }
+                        },
+                        error: function(e) { 
+                            $('#alertServidor').fadeIn(500);
+                            setTimeout( "$('#alertServidor').fadeOut(1500);",2500);
+                            console.log(e.responseText);
+                        }
+                    });
+                 }
+            });
+
+            peencherCampos();
+            $("#datadopedido").mask("99/99/9999");
+        });
+
+        function peencherCampos(){
+            preencheDados(getIdPedido());		
+        }
+
+        function preencheDados(idPedido){
+        	preencheProdutos(idPedido);        	
+        }
+
+        var mapValue = {};
+        var mapName = {};
+
+        function getValue(k) {
+            return mapValue[k];
+        }
+        function getName(k) {
+            return mapName[k];
+        }
+        
+        function preencheProdutos(idPedido){
+        	$.ajax({
+	            url: '/RadevSystem/ProdutoServiceList', //listarCliente.php',
+	            type: 'post',
+	            dataType: 'json',
+	            success: function (data) {
+	            	$.each(data.produtolist, function(i, object) {		            	
+	            		mapValue[object.id] = object.valor;
+	            		mapName[object.id] = object.descricao;
+	            	});          	
+	            	preencheCabecalho(idPedido);
+	            	preencheItens(idPedido);
+	            },
+	            error: function(e) { 
+	                console.log(e.responseText);
+	            }
+	        });
+        }
+        
+        function preencheCabecalho(idPedido){
+        	var res = {id: idPedido};
+       	 	$.ajax({
+		    	url: '/RadevSystem/PedidoServiceGetPedido', //listarCliente.php',
+		        type: 'post',
+		        dataType: 'json',
+		        data: res,
+		        success: function (data) {
+
+			        var object = data.pedido[0];
+			        
+		        	$("#numerodopedido").val(object.id);
+		        	preencheCliente(object.cliente);
+		        	preencheVendedor(object.vendedor);
+	               	$("#datadopedido").val(object.data);
+	               	$("#endcobranca").val(object.endc);
+	               	$("#endentrega").val(object.ende);
+	               	//$("#valorpedido").val(data.valor);
+	               	$("#condicaopgto").val(object.pgto);
+		        	//alert(JSON.stringify(data));
+		            
+		     	},
+		        error: function(e) { 
+		        	console.log(e.responseText);
+				}
+			});
+		}
+
+        function preencheItens(idPedido){
+        	var res = {id: idPedido};
+       	 	$.ajax({
+		    	url: '/RadevSystem/PedidoServiceGetItens', //listarCliente.php',
+		        type: 'post',
+		        dataType: 'json',
+		        data: res,
+		        success: function (data) {	                  	
+		            $.each(data.itenlist, function(i, object) {		        	
+			           	addItemServer(object.produto, getValue(object.produto), getName(object.produto), object.quantidade, object.item);
+	                });        	
+		     	},
+		        error: function(e) { 
+		        	console.log(e.responseText);
+				}
+			});
+        }
+
+        function preencheCliente(id){
+          	 $.ajax({
+   		            url: '/RadevSystem/ClienteServiceList', //listarCliente.php',
+   		            type: 'post',
+   		            dataType: 'json',
+   		            success: function (data) {
+   		            	$.each(data.clientelist, function(i, object) {
+   	   		            	if(object.id == id)
+   		            			$("#clienteoption").val(object.id+" - "+object.nome);
+   		            	});             	
+   		            },
+   		            error: function(e) { 
+   		                console.log(e.responseText);
+   		            }
+   		     });
+          }
+
+           function preencheVendedor(id){
+             	 $.ajax({
+      		            url: '/RadevSystem/VendedorServiceList', //listarCliente.php',
+      		            type: 'post',
+      		            dataType: 'json',
+      		            success: function (data) {
+      		            	$.each(data.vendedorlist, function(i, object) {
+      		            		if(object.id == id)
+       		            			$("#vendedoroption").val(object.id+" - "+object.nome);
+      		            	});             	
+      		            },
+      		            error: function(e) { 
+      		                console.log(e.responseText);
+      		            }
+      		     });
+             }
+
+        
+        //Janela Modal
+        $(document).ready(function(){
+		    $("a[rel=modal]").click( function(ev){
+		        ev.preventDefault();
+
+		        $.ajax({
+		            url: '/RadevSystem/ProdutoServiceList', //listarCliente.php',
+		            type: 'post',
+		            dataType: 'json',
+		            success: function (data) {
+		                //alert(JSON.stringify(data)); 
+		                $("#sample_2").empty();
+
+		                var newRow = $("<thead>");
+		                var cols = "";
+
+		                cols += '<th>Código</th>';
+		                cols += '<th>Descrição</th>';
+		                cols += '<th>Valor</th></thead>';
+
+		                newRow.append(cols);
+		                $("#sample_2").append(newRow);
+		                           	
+		            	$.each(data.produtolist, function(i, object) {
+							var array = [object.id, object.descricao, object.valor];
+							addRowProdutos(array);
+		            	});          	
+		            },
+		            error: function(e) { 
+		                console.log(e.responseText);
+		            }
+		        });
+		 
+		        var id = $(this).attr("href");
+		 
+		        var alturaTela = $(window).height();
+		        var larguraTela = $(window).width();
+		     
+		        //colocando o fundo preto
+		        $('#mascara').css({'width': 1000,'height':1000});
+		        $('#mascara').fadeIn(1000); 
+		        $('#mascara').fadeTo("slow",0.8);
+		 
+		        $(id).show();   
+		    });
+		 
+		    $("#mascara").click( function(){
+		        $(this).hide();
+		        $(".window").hide();
+		    });
+		 
+		    $('.fechar').click(function(ev){
+		        ev.preventDefault();
+		        $("#mascara").hide();
+		        $(".window").hide();
+		    });
+		});
+        
+        
+        function addRowProdutos(data){
+        	var newRow = $('<tr onclick="addItem('+data[0]+','+data[2]+',\''+data[1]+'\');">');
+            var cols = '';
+            //cols += '<td><input type="checkbox" class="checkboxes" value="1"/></td>';
+            cols += '<td>'+data[0]+'</td>';
+            cols += '<td>'+data[1]+'</td>';
+            cols += '<td>'+data[2]+'</td></tr>';
+
+            newRow.append(cols);
+            $("#sample_2").append(newRow);
+
+        }
+
+        var itemCont = 1;
+        
+        function addItemServer(id, valor, descricao, qtd, cont){
+        	var newRow = $('<tr>');
+            var cols = '';
+            var idQtd = "qtd"+cont;
+            var idVal = "valor"+cont;
+            var idDelete = "deleteLink"+cont;
+             
+            cols += '<td width="20%">'+cont+'</td>';
+            cols += '<td width="20%">'+id+'</td>';
+            cols += '<td width="20%">'+descricao+'</td>';
+            cols += '<td width="20%"><input id="'+idQtd+'" class="form-control" type="text" value='+qtd+'></td>';
+            cols += '<td width="20%"><input id="'+idVal+'" disabled class="form-control" type="text" value='+valor*qtd+'></td>';
+            cols += '<td><a id="'+idDelete+'" >Excluir</a></td></tr>';
+            newRow.append(cols);
+            $("#sample_1").append(newRow);
+            $("#"+idQtd).mask("?9999");
+
+	        deleteItem(idDelete);
+	        editValue(idQtd, idVal, valor);	        
+
+	        itemCont = cont+1;
+	        calculaTotal();
+	        
+	        
+        }
+
+        function addItem(id, valor, descricao){
+        	var newRow = $('<tr>');
+            var cols = '';
+            var idQtd = "qtd"+itemCont;
+            var idVal = "valor"+itemCont;
+            var idDelete = "deleteLink"+itemCont;
+             
+            cols += '<td width="20%">'+itemCont+'</td>';
+            cols += '<td width="20%">'+id+'</td>';
+            cols += '<td width="20%">'+descricao+'</td>';
+            cols += '<td width="20%"><input id="'+idQtd+'" class="form-control" type="text"></td>';
+            cols += '<td width="20%"><input id="'+idVal+'" disabled class="form-control" type="text"></td>';
+            cols += '<td><a id="'+idDelete+'" >Excluir</a></td></tr>';
+
+            newRow.append(cols);
+            $("#sample_1").append(newRow);
+            $("#"+idQtd).mask("?9999");
+
+            $("#mascara").hide();
+	        $(".window").hide();
+
+	        deleteItem(idDelete);
+	        editValue(idQtd, idVal, valor);	
+            
+            itemCont++;
+         }
+        
+        function deleteItem(idDelete){
+        	$("#"+idDelete).on("click",function() {
+            	$(this).closest('tr').remove();
+            	calculaTotal();
+            });
+         }
+
+        function editValue(idQtd, idVal, valor){
+        	$('#'+idQtd).keyup(function() {
+                var qtd = $('#'+idQtd).val();
+                var val = valor;
+                 if(parseFloat(qtd) > 0){                
+                	var total = parseInt(qtd)*parseFloat(val)
+             		$("#"+idVal).val(total.toFixed(2));
+            	}
+                else{
+                	$("#"+idVal).val("");
+        		}	
+                 calculaTotal();
+            });
+        }
+
+        function calculaTotal(){
+       		var i = 1;
+          	var totalPedido = 0;
+				while(itemCont > i){						
+					if($("#valor"+i).val() !== "" && typeof $("#valor"+i).val() === "string"){
+						totalPedido += parseFloat($("#valor"+i).val());
+					}
+					i++;
+				}
+				$("#valorpedido").val(totalPedido.toFixed(2));
+         }
+
+
+        function verificaCampos(){
+			if($('#sample_1 tr').length <= 1){
+				errorMsg("Insira ao menos 1 produto.");
+			}else{
+				//salvar
+				return true;
+			}
+			return false;
+        }
+
+        function errorMsg(text){
+        	$("#textError").text(text);
+        	$('#alert').fadeIn(500);
+            setTimeout( "$('#alert').fadeOut(1500);",2500);  
+        }
+
+
+        function tableToarray() {
+			var tableArray = $('#sample_1 tbody tr').map(function() {
+      		  // $(this) is used more than once; cache it for performance.
+      		  var $row = $(this);
+      		 
+      		  // For each row that's "mapped", return an object that
+      		  //  describes the first and second <td> in the row.
+      		  return {
+      		    item: 		$row.find('td:nth-child(1)').text(),
+      		  	codigo: 	$row.find('td:nth-child(2)').text(),
+      			quantidade: $row.find('td:nth-child(4) input').val(),      			
+      		    
+      		  };
+      		}).get();
+
+			//alert(JSON.stringify(tableArray));  
+			return tableArray;
+             
+      	}
+    </script>

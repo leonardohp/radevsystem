@@ -2458,6 +2458,51 @@ select.input-sm {
   background: #e5e5e5;
   min-width: 70px;
 }
+
+.input-group .input-group-addon-plus {
+  border-color: #e5e5e5;
+  background: #e5e5e5;
+  min-width: 156px;
+}
+
+.plus-size {
+  min-width: 156px !important;
+}
+
+.plus-ico{
+	color: green;
+}
+
+
+
+.window{
+	width: 400px;
+    border: 1px solid #B1BDBD;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #FFF;
+    z-index: 9900;
+    padding: 10px;
+    border-radius: 10px;
+    top: 20%;
+    left: 30%;
+}
+ 
+#mascara{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+}
+ 
+.fechar{display:block; text-align:right;}
+
+
+
+
 .input-group .input-group-addon > i {
   color: #999;
 }

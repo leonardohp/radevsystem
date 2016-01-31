@@ -51,7 +51,7 @@ public class UsuarioDAO extends DAOManagerImpl<Object> {
 	public List<Usuario> listAll() {
 		
 		try {
-			Query query = em.createQuery("select u from usuario u");
+			Query query = em.createQuery("select u from Usuario u");
 			this.usuarios = Collections.checkedList(query.getResultList(), Usuario.class);
 		} catch (Exception e) {
 			e.printStackTrace();

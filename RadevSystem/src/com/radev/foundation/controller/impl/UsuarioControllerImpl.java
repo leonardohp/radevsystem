@@ -2,6 +2,8 @@ package com.radev.foundation.controller.impl;
 
 import java.util.List;
 
+import org.primefaces.json.JSONObject;
+
 import com.radev.foundation.controller.UsuarioController;
 import com.radev.foundation.entity.Usuario;
 import com.radev.foundation.persistence.UsuarioDAO;

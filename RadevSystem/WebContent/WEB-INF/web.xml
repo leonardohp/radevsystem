@@ -1,31 +1,155 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">   
-<display-name>RadevSystem</display-name>
-  <servlet>
-  	<servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>../pages/index.xhtml</welcome-file>
-  </welcome-file-list>
-  <context-param>
-    <param-name>javax.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-  <session-config>
-	<session-timeout>60</session-timeout>
-  </session-config>
- <filter>
-      <filter-name>CredentialFilter</filter-name>
-      <filter-class>com.radev.foundation.security.CredentialFilter</filter-class> 
-  </filter>
-  <filter-mapping>
-      <filter-name>CredentialFilter</filter-name>
-      <url-pattern>/pages/*</url-pattern>
-  </filter-mapping>      
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>RadevSystem</display-name>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<filter>
+		<filter-name>CredentialFilter</filter-name>
+		<filter-class>com.radev.foundation.security.CredentialFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CredentialFilter</filter-name>
+		<url-pattern>/pages/*</url-pattern>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+	<welcome-file-list>
+		<welcome-file>../pages/index.xhtml</welcome-file>
+	</welcome-file-list>
+
+
+
+	<servlet>
+		<display-name>ClienteServiceList</display-name>
+		<servlet-name>ClienteServiceList</servlet-name>
+		<servlet-class>com.radev.foundation.services.ClienteServiceList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClienteServiceList</servlet-name>
+		<url-pattern>/ClienteServiceList</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>ClienteServiceRegister</display-name>
+		<servlet-name>ClienteServiceRegister</servlet-name>
+		<servlet-class>com.radev.foundation.services.ClienteServiceRegister</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClienteServiceRegister</servlet-name>
+		<url-pattern>/ClienteServiceRegister</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>ProdutoServiceList</display-name>
+		<servlet-name>ProdutoServiceList</servlet-name>
+		<servlet-class>com.radev.foundation.services.ProdutoServiceList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProdutoServiceList</servlet-name>
+		<url-pattern>/ProdutoServiceList</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>VendedorServiceList</display-name>
+		<servlet-name>VendedorServiceList</servlet-name>
+		<servlet-class>com.radev.foundation.services.VendedorServiceList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VendedorServiceList</servlet-name>
+		<url-pattern>/VendedorServiceList</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceGetN</display-name>
+		<servlet-name>PedidoServiceGetN</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceGetN</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceGetN</servlet-name>
+		<url-pattern>/PedidoServiceGetN</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceRegister</display-name>
+		<servlet-name>PedidoServiceRegister</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceRegister</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceRegister</servlet-name>
+		<url-pattern>/PedidoServiceRegister</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceList</display-name>
+		<servlet-name>PedidoServiceList</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceList</servlet-name>
+		<url-pattern>/PedidoServiceList</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceDelete</display-name>
+		<servlet-name>PedidoServiceDelete</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceDelete</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceDelete</servlet-name>
+		<url-pattern>/PedidoServiceDelete</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<display-name>PedidoServiceEditItens</display-name>
+		<servlet-name>PedidoServiceEditItens</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceEditItens</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceEditItens</servlet-name>
+		<url-pattern>/PedidoServiceEditItens</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceGetItens</display-name>
+		<servlet-name>PedidoServiceGetItens</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceGetItens</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceGetItens</servlet-name>
+		<url-pattern>/PedidoServiceGetItens</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<display-name>PedidoServiceGetPedido</display-name>
+		<servlet-name>PedidoServiceGetPedido</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceGetPedido</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceGetPedido</servlet-name>
+		<url-pattern>/PedidoServiceGetPedido</url-pattern>
+	</servlet-mapping>
+	
+
+
+
+
+
 </web-app>

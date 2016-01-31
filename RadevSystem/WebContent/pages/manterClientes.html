@@ -1,3 +1,4 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <div class="page-content">                                      
     <div class="row">
         <div class="col-md-12">
@@ -13,9 +14,6 @@
                         <div class="row">
                             <div class="col-md-6">
 
-                                <button style="width:100px;" id="selecionar" class="btn grey-cascade">
-                                    Selecionar 	
-                                </button>
                                 <button style="width:100px;" id="novoCliente" name="novoCliente" class="btn grey-cascade">
                                     Novo 
                                 </button>
@@ -34,9 +32,9 @@
                                 <span class="input-group-addon input-circle-left bold">
                                     Tipo
                                 </span>
-                                <select class="form-control">
-                                    <option>Nome</option>
-                                    <option>Código</option>
+                                <select class="form-control" id="tipoOption">
+                                    <option value = "1">Código de Cliente</option>
+                                    <option value = "2">Nome do Cliente</option>
                                 </select>
                             </div>
 
@@ -53,9 +51,9 @@
                                 <div class="input-icon">
                                     <input id="busca" class="form-control" type="text" >
                                 </div>
-                                <span class="input-group-btn">
+                              <!--   <span class="input-group-btn">
                                     <button id="genpassword" class="btn btn-success" type="button"><i class="fa fa-search fa-fw"></i> Pesquisar</button>
-                                </span>
+                                </span> -->
 
                             </div>
                         </div>
@@ -63,9 +61,6 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_1">
                         <thead>
                             <tr>
-                                <th>
-
-                                </th>
                                 <th>
                                     Código
                                 </th>
@@ -83,7 +78,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sample_body">
                       
                         </tbody>
                     </table>
@@ -103,15 +98,20 @@
         $("#novoCliente").click(function () {
             $("#painel-ajax").load("cadastroClientes.html");
         });
-        
+
+        $("#fechar").click(function () {
+            $("#painel-ajax").load("home.html");
+        });
         $.ajax({
-            url: 'listarCliente.php',
+            url: '/RadevSystem/ClienteServiceList', //listarCliente.php',
             type: 'post',
             dataType: 'json',
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    addRow(data[i]);
-                }
+                //alert(JSON.stringify(data));            	
+            	$.each(data.clientelist, function(i, object) {
+					var array = [object.id, object.nome, object.email, object.cpf, object.rg]
+					addRow(array);
+            	});          	
             },
             error: function(e) { 
                 console.log(e.responseText);
@@ -125,7 +125,7 @@
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += '<td><input type="checkbox" class="checkboxes" value="1"/></td>';
+        //cols += '<td><input type="checkbox" class="checkboxes" value="1"/></td>';
         cols += '<td>'+data[0]+'</td>';
         cols += '<td>'+data[1]+'</td>';
         cols += '<td>'+data[2]+'</td>';
@@ -137,6 +137,17 @@
 
         return false;
     }
+
+    $("#busca").keyup(function () {
+        var rows = $("#sample_body").find("tr").hide();
+        if (this.value.length) {
+            var data = this.value.split(" ");
+            $.each(data, function (i, v) {
+                rows.has("td:nth-child("+$("#tipoOption").val()+"):contains('" + v + "')").show();
+                //rows.filter(":contains('" + v + "')").show();
+            });
+        } else rows.show();
+    });
 
 
 </script>
