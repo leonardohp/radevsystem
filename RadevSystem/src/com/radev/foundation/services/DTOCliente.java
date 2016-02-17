@@ -44,6 +44,10 @@ public class DTOCliente {
 			cliente.setEmail(email);
 			cliente.setCpf(cpf);
 			cliente.setRg(rg);
+			if(cpf.length() > 14)
+				cliente.setPessoa("J");
+			else
+				cliente.setPessoa("F");
 			
 			ClienteController clienteController = new ClienteControllerImpl();
 			clienteController.persist(cliente);

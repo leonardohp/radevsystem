@@ -40,6 +40,8 @@ public class Pedido implements Serializable {
 	private String condPgto;
 	@Column(nullable = false, columnDefinition = "int default 0")
 	private int excluido;	
+	@Column(nullable = false, columnDefinition = "int default 0")
+	private int liberar;
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente clientes;

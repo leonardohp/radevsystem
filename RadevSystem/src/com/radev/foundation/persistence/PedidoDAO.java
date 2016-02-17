@@ -74,6 +74,48 @@ public class PedidoDAO extends DAOManagerImpl<Object> {
 		// q.setParameter("id", id);
 		// q.executeUpdate();
 	}
+	
+	public boolean liberar(int id) {
+		try {
+			em.getTransaction().begin();
+			
+			String query = "update Pedido set liberar = 1 where pedido_id ="+ id;
+			Query q = em.createNativeQuery(query);
+			q.executeUpdate();
+			
+			em.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			em.getTransaction().rollback(); // desfaz transacao se ocorrer erro
+											// ao persitir
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().commit();
+			}
+		}
+
+		return false;
+	}
+	
+	public void updateValor(int id, float val) {
+		try {
+			em.getTransaction().begin();
+			
+			String query = "update Pedido set valor ="+ val +"where pedido_id ="+ id;
+			Query q = em.createNativeQuery(query);
+			q.executeUpdate();
+			
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback(); // desfaz transacao se ocorrer erro
+											// ao persitir
+		} finally {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().commit();
+			}
+		}
+
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Pedido> listAll() {
@@ -82,6 +124,24 @@ public class PedidoDAO extends DAOManagerImpl<Object> {
 			Query query = em
 					.createQuery("select p from Pedido p inner join p.clientes c where p.excluido != 1 order by p.pedido_id");
 
+			this.pedidos = Collections.checkedList(query.getResultList(),
+					Pedido.class);
+		} catch (Exception e) {
+			System.out.print(e);
+			e.printStackTrace();
+		}
+
+		return this.pedidos;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Pedido> listAllLiberar() {
+
+		try {
+			Query query = em
+					.createQuery("select p from Pedido p inner join p.clientes c where p.excluido != 1 and p.liberar != 1 order by p.pedido_id");
+			
 			this.pedidos = Collections.checkedList(query.getResultList(),
 					Pedido.class);
 		} catch (Exception e) {

@@ -27,5 +27,6 @@ public class ClienteControllerImpl implements ClienteController {
 	public List<Cliente> listAll() {
 		return clienteDAO.listAll();		
 	}
+	
 
 }

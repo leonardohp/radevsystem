@@ -44,6 +44,30 @@ public class DTOPedido {
 			return mainObj;
 		}
 		
+		public JSONObject getpedidosLiberar() throws JSONException{
+			PedidoController pedidoController = new PedidoControllerImpl();
+			List<Pedido> pedidoList = pedidoController.listAllLiberar();
+			
+			if(pedidoList == null){
+				return null;
+			}
+			
+			JSONArray ja = new JSONArray();
+			for(Pedido u : pedidoList){
+				JSONObject jo = new JSONObject();
+				jo.put("id", u.getId());
+				jo.put("cliente", u.getClientes().getId());
+				jo.put("nomecliente", u.getClientes().getNome());
+				jo.put("valor", u.getValor());
+				
+				ja.put(jo);
+			}
+			
+			JSONObject mainObj = new JSONObject();
+			mainObj.put("pedidolist", ja);
+			return mainObj;
+		}
+		
 		public JSONObject getpedido(int id) throws JSONException{
 			PedidoController pedidoController = new PedidoControllerImpl();
 			Pedido u = pedidoController.findById(id);
@@ -133,9 +157,10 @@ public class DTOPedido {
 		
 		
 		
-		public boolean editItensPedido(int id, String item[], String produto[], String qtd[]) throws Exception{
+		public boolean editItensPedido(int id, float val, String item[], String produto[], String qtd[]) throws Exception{
 				PedidoProdutoController pedidoProdutoController = new PedidoProdutoControllerImpl();
 				pedidoProdutoController.excluir(id);
+				updateValor(id, val);
 				
 				for(int i = 0; i < item.length; i++){				
 					PedidoProduto pedidoproduto = new PedidoProduto();
@@ -156,9 +181,25 @@ public class DTOPedido {
 			
 		}
 		
+		public void updateValor(int id, float valor){
+			PedidoController pedidoController = new PedidoControllerImpl();
+			pedidoController.updateValor(id, valor);
+			
+		}
+		
 		public boolean delete(int id){
 			PedidoController pedidoController = new PedidoControllerImpl();
 			return pedidoController.excluir(id);
+			
+		}
+		
+		public boolean liberar(String liberar[]){
+			PedidoController pedidoController = new PedidoControllerImpl();
+			for(String l : liberar){
+				if(!pedidoController.liberar(Integer.parseInt(l)))
+					return false;
+			}
+			return true;
 			
 		}
 

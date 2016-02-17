@@ -1,0 +1,166 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="page-content">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN EXAMPLE TABLE PORTLET-->
+			<div class="portlet box grey-cascade">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa icon-basket"> </i> Pedidos de Vendas
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="table-toolbar">
+						<div class="row">
+							<div class="col-md-6">
+							<button id="liberarPedido" style="width: 100px;" id="fechar"
+									class="btn grey-cascade">Liberar</button>
+								<button id="fecharPedido" style="width: 100px;" id="fechar"
+									class="btn grey-cascade">Fechar</button>
+
+							</div>
+
+						</div>
+						<div id ="alert" class="alert alert-danger display-hide">
+                        	<button class="close" data-close="alert"></button>
+                            <div id ="textError">Selecione um Pedido.</div>
+                         </div>
+                         <div id ="alert" class="alert alert-danger display-hide">
+                        	<button class="close" data-close="alert"></button>
+                            <div id ="textError">Falha no servidor.</div>
+                         </div>
+					</div>
+
+					<table class="table table-striped table-bordered table-hover"
+						id="sample_1">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Pedido</th>
+								<th>Cliente</th>
+								<th>Nome do Cliente</th>
+								<th>Valor Pedido</th>
+								<th>Valor Crédito</th>
+								<th>Saldo a Aprovar</th>
+							</tr>
+						</thead>
+						<tbody id="sample_body">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- END EXAMPLE TABLE PORTLET-->
+		</div>
+	</div>
+	<div class="row"></div>
+	<script src="assets/admin/pages/scripts/table-managed.js"></script>
+	<script>
+
+        jQuery(document).ready(function () {        	
+        	TableManaged.init();
+
+            $("#fecharPedido").click(function () {
+                $("#painel-ajax").load("home.html");
+            });
+
+            $("#liberarPedido").click(function () {
+            	if(arrayAprovacao.length == 0){
+            		$('#alert').fadeIn(500);
+                    setTimeout( "$('#alert').fadeOut(1500);",2500);
+                }else{                	
+					liberar();
+                }
+            });
+            preencheTabela();
+            
+            
+        });
+
+        function preencheTabela(){
+        	$.ajax({
+                url: '/RadevSystem/PedidoServiceListLiberar', //listarCliente.php',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                   //alert(JSON.stringify(data));            	
+                	$.each(data.pedidolist, function(i, object) {
+                		var array = [object.id, object.cliente, object.nomecliente, object.valor];
+    					addRow(array);
+                	});          	
+                },
+                error: function(e) { 
+                    console.log(e.responseText);
+                }
+            });
+         }
+
+       	var arrayAprovacao = new Array;
+       	
+        function addRow(data){
+            var newRow = $("<tr>");
+            var cols = "";
+            var idCheck = data[0]+"Editar";
+            var idExcluir = data[0]+"Excluir";
+
+            //cols += '<td><input type="checkbox" class="checkboxes" value="1"/></td>';
+            cols += '<td><input type="checkbox" id="'+idCheck+'" value="'+data[0]+'"></td>';
+            cols += '<td>'+data[0]+'</td>';
+            cols += '<td>'+data[1]+'</td>';
+            cols += '<td>'+data[2]+'</td>';
+            cols += '<td id="valPedido">'+data[3]+'</td>';
+            cols += '<td></td>';
+            cols += '<td></td></tr>';
+
+            newRow.append(cols);
+            $("#sample_1").append(newRow);
+
+            $("#"+idCheck).on("click",function() {
+            	if($.inArray($(this).val(), arrayAprovacao) == -1){
+            		arrayAprovacao.push($(this).val());	
+                }
+            	else{
+            		arrayAprovacao.splice(	$.inArray($(this).val(),arrayAprovacao) ,1);
+                }          	
+            });
+        }
+
+        function liberar(){
+            
+        	var res = $(this).serializeArray();
+
+        	var jsonAprovacao = JSON.stringify(arrayAprovacao);
+        	res.push({name: 'aprovacao', value: jsonAprovacao});
+        	
+             $.ajax({
+             	url: '/RadevSystem/PedidoServiceLiberar', //listarCliente.php',
+                type: 'post',
+                dataType: 'json',
+                data: res,
+                success: function (data) {
+                	if(data == true){
+	                	arrayAprovacao = [];
+	                	$('#sample_1 tbody').remove();
+	                	preencheTabela();
+                	}
+                	else{
+                    	errorMsg("Falha em aprovar um dos pedidos selecionados.");
+                    	arrayAprovacao = [];
+	                	$('#sample_1 tbody').remove();
+	                	preencheTabela();
+                    }
+				},
+                error: function(e) { 
+                	console.log(e.responseText);
+                }
+        	});
+        }
+
+        function errorMsg(text){
+        	$("#textError").text(text);
+        	$('#alert').fadeIn(500);
+            setTimeout( "$('#alert').fadeOut(1500);",2500);  
+        }
+
+
+    </script>

@@ -41,7 +41,7 @@ public class PedidoServiceEditItens extends HttpServlet {
 		  
 		  PrintWriter out = response.getWriter(); 
 		  try {			  
-			  out.print(pedido.editItensPedido(Integer.parseInt(cabecalho[0]), item, codigo, qtd));
+			  out.print(pedido.editItensPedido(Integer.parseInt(cabecalho[0]), Float.parseFloat(cabecalho[1]), item, codigo, qtd));
 		  
 		  } catch
 		  (Exception e) { // TODO Auto-generated catch block

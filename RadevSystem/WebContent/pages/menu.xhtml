@@ -178,7 +178,7 @@
 					<span class="title">Compras</span>
 					</a>
 				</li>
-                                <li>
+                <li>
 					<a >
 					<i class="icon-basket-loaded"></i>
 					<span class="title">Venda</span>
@@ -189,6 +189,11 @@
 							<a >
 							<i class="icon-basket"></i>
 							Pedido de Venda</a>
+						</li>
+						<li id="aprovacao">
+							<a >
+							<i class="icon-basket"></i>
+							Aprovação</a>
 						</li>
 					</ul>
 				</li>
@@ -279,6 +284,9 @@ $(document).ready(function () {
     });
     $( "#manterClientes" ).click(function() {       
         $("#painel-ajax").load("manterClientes.html");
+    });
+    $( "#aprovacao" ).click(function() {       
+        $("#painel-ajax").load("aprovacaoPedido.html");
     });
 });
             

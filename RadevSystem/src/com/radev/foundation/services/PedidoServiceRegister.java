@@ -45,6 +45,7 @@ public class PedidoServiceRegister extends HttpServlet {
 		  
 		  } catch
 		  (Exception e) { // TODO Auto-generated catch block
+			  System.out.print(e);
 			  e.printStackTrace(); 
 		  } out.close();		 
 

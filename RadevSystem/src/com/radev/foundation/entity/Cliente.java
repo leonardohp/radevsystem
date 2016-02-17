@@ -40,7 +40,8 @@ public class Cliente implements Serializable {
 	private String cpf;	
 	@Length(max=50)
 	private String rg;
-	
+	@Length(max=50)
+	private String pessoa;
 	
 	public int getId() {
 		return cliente_id;
@@ -71,6 +72,12 @@ public class Cliente implements Serializable {
 	}
 	public void setRg(String rg) {
 		this.rg = rg;
+	}
+	public String getPessoa() {
+		return pessoa;
+	}
+	public void setPessoa(String pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	

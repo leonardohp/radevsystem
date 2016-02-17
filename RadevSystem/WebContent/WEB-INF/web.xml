@@ -106,6 +106,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<display-name>PedidoServiceListLiberar</display-name>
+		<servlet-name>PedidoServiceListLiberar</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceListLiberar</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceListLiberar</servlet-name>
+		<url-pattern>/PedidoServiceListLiberar</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<display-name>PedidoServiceDelete</display-name>
 		<servlet-name>PedidoServiceDelete</servlet-name>
 		<servlet-class>com.radev.foundation.services.PedidoServiceDelete</servlet-class>
@@ -113,6 +123,16 @@
 	<servlet-mapping>
 		<servlet-name>PedidoServiceDelete</servlet-name>
 		<url-pattern>/PedidoServiceDelete</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<display-name>PedidoServiceLiberar</display-name>
+		<servlet-name>PedidoServiceLiberar</servlet-name>
+		<servlet-class>com.radev.foundation.services.PedidoServiceLiberar</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PedidoServiceLiberar</servlet-name>
+		<url-pattern>/PedidoServiceLiberar</url-pattern>
 	</servlet-mapping>
 	
 	
